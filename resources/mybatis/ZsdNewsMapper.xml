@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.zsdApp.dao.ZsdNewsMapper">
+  <resultMap id="BaseResultMap" type="com.py.zsdApp.entity.ZsdNews">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="db_titile" jdbcType="VARCHAR" property="dbTitile" />
+    <result column="db_text" jdbcType="VARCHAR" property="dbText" />
+    <result column="db_img" jdbcType="VARCHAR" property="dbImg" />
+    <result column="db_video" jdbcType="VARCHAR" property="dbVideo" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, db_titile, db_text, db_img, db_video, create_date, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zsd_news
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from zsd_news
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.zsdApp.entity.ZsdNews">
+    insert into zsd_news (id, db_titile, db_text, 
+      db_img, db_video, create_date, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{dbTitile,jdbcType=VARCHAR}, #{dbText,jdbcType=VARCHAR}, 
+      #{dbImg,jdbcType=VARCHAR}, #{dbVideo,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.zsdApp.entity.ZsdNews">
+    insert into zsd_news
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dbTitile != null">
+        db_titile,
+      </if>
+      <if test="dbText != null">
+        db_text,
+      </if>
+      <if test="dbImg != null">
+        db_img,
+      </if>
+      <if test="dbVideo != null">
+        db_video,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dbTitile != null">
+        #{dbTitile,jdbcType=VARCHAR},
+      </if>
+      <if test="dbText != null">
+        #{dbText,jdbcType=VARCHAR},
+      </if>
+      <if test="dbImg != null">
+        #{dbImg,jdbcType=VARCHAR},
+      </if>
+      <if test="dbVideo != null">
+        #{dbVideo,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.zsdApp.entity.ZsdNews">
+    update zsd_news
+    <set>
+      <if test="dbTitile != null">
+        db_titile = #{dbTitile,jdbcType=VARCHAR},
+      </if>
+      <if test="dbText != null">
+        db_text = #{dbText,jdbcType=VARCHAR},
+      </if>
+      <if test="dbImg != null">
+        db_img = #{dbImg,jdbcType=VARCHAR},
+      </if>
+      <if test="dbVideo != null">
+        db_video = #{dbVideo,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.zsdApp.entity.ZsdNews">
+    update zsd_news
+    set db_titile = #{dbTitile,jdbcType=VARCHAR},
+      db_text = #{dbText,jdbcType=VARCHAR},
+      db_img = #{dbImg,jdbcType=VARCHAR},
+      db_video = #{dbVideo,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!--根据标题模糊查询 -->
+  <select id="selectByTitle" parameterType="com.py.zsdApp.entity.ZsdNews" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zsd_news
+    where 1=1
+    <if test="dbTitile != null">
+       and db_titile LIKE CONCAT(CONCAT('%', #{dbTitile,jdbcType=VARCHAR}), '%')
+      </if>
+  </select>
+</mapper>

@@ -1,0 +1,75 @@
+package com.py.zsdApp.web;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.py.zsdApp.entity.ZsdUser;
+import com.py.zsdApp.service.ZsdUserService;
+import com.py.zsdApp.utils.MapHelper;
+import com.py.zsdApp.utils.Msg;
+
+@Controller
+@RequestMapping(value = "/home")
+public class HomePageController {
+	@Autowired
+	private ZsdUserService zsdUserService;
+	//获取最近的工人
+	@RequestMapping(value = "/getNearbyWorker")
+	@ResponseBody
+	public Msg getNearbyWorker(@RequestParam(value="typework",required=false)String typework,
+			@RequestParam(value="userLat",required=false)String userLat,
+			@RequestParam(value="userLong",required=false)String userLong){
+		System.out.println(typework);
+		if(!StringUtils.hasText(userLat)) {//纬度
+			return Msg.fail().add("mag", "用户坐标为空请定位");
+		}
+		if(!StringUtils.hasText(userLong)) {//经度
+			return Msg.fail().add("mag", "用户坐标为空请定位");
+		}
+		ZsdUser zsdUser = new ZsdUser();
+		zsdUser.setUserIndustry(typework);
+		Double jing = Double.valueOf(userLong);//当前用户经度
+		Double wei = Double.valueOf(userLat);//当前用户纬度
+		List<ZsdUser> selectByUser = zsdUserService.selectByUserIndustry(zsdUser);
+		if(selectByUser.size() == 0||selectByUser == null) {
+			return Msg.fail().add("mag", "该行业还没有工人");
+		}
+		List<Map<String,String>> list = new ArrayList<>();
+		for (ZsdUser zsdUser2 : selectByUser) {
+			if(StringUtils.hasText(zsdUser2.getUserAddress())&&StringUtils.hasText(zsdUser2.getUserLat())&&StringUtils.hasText(zsdUser2.getUserLong())) {
+				String userLat2 = zsdUser2.getUserLat();//工人纬度
+				String userLong2 = zsdUser2.getUserLong();//工人经度
+				Double gjing = Double.valueOf(userLong2);//当前工人经度
+				Double gwei = Double.valueOf(userLat2);//当前工人纬度
+				Double distance = MapHelper.getDistance(wei,jing, gwei, gjing);//距离
+				Map<String, String> map = new HashMap<String,String>();
+				map.put("id",zsdUser2.getUserId().toString());//名称
+				map.put("username",zsdUser2.getUserName());//名称
+				map.put("juli", distance.toString());//距离
+				map.put("image", zsdUser2.getUserImg());//头像
+				map.put("industry", zsdUser2.getUserIndustry());//行业
+				map.put("speciality", zsdUser2.getUserSpare2());//特长
+				list.add(map);
+			}
+		}
+		Collections.sort(list, new Comparator<Map<String,String>>() {
+		      public int compare(Map<String, String> o1, Map<String, String> o2) {
+		        String name1 = (String)o1.get("juli");
+		        String name2 = (String)o2.get("juli");
+		        return name1.compareTo(name2);
+		      }
+		});
+		return Msg.success(list);
+	}
+}

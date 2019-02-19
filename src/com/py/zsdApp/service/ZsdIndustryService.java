@@ -1,0 +1,67 @@
+package com.py.zsdApp.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.py.zsdApp.dao.ZsdIndustryMapper;
+import com.py.zsdApp.entity.ZsdIndustry;
+
+@Service
+public class ZsdIndustryService {
+	@Autowired
+	private ZsdIndustryMapper zsdIndustryMapper;
+	
+	/**
+	 * 新增行业
+	 */
+	public int insertSelective(ZsdIndustry record) {
+		return zsdIndustryMapper.insertSelective(record);
+	}
+	
+	/**
+	 * 新增行业
+	 */
+	public int insert(ZsdIndustry zsdIndustry) {
+		return zsdIndustryMapper.insert(zsdIndustry);
+	}
+	/**
+	 * 修改行业
+	 */
+	public int updateByPrimaryKeySelective(ZsdIndustry record) {
+	return zsdIndustryMapper.updateByPrimaryKeySelective(record);
+	}
+	
+	/**
+	 * 删除行业
+	 */
+	public int deleteByPrimaryKey(Integer id) {
+		return zsdIndustryMapper.deleteByPrimaryKey(id);
+	}
+	
+	/**
+	 * 手机端查询行业列表
+	 */
+	public List<ZsdIndustry> selectByParentId(Integer parentId){
+		return zsdIndustryMapper.selectByParentId(parentId);
+	}
+	/**
+	 * 后管获取所有行业列表
+	 */
+	public List<ZsdIndustry> selectAll(){
+		return zsdIndustryMapper.selectAll();
+	}
+	/*
+	 * 根据ID查询行业
+	 */
+	public ZsdIndustry selectByPrimaryKey(Integer id) {
+		return zsdIndustryMapper.selectByPrimaryKey(id);
+	}
+	/**
+	 * 根据属性查询
+	 */
+	public ZsdIndustry selectByExample(ZsdIndustry record) {
+		return zsdIndustryMapper.selectByExample(record);
+	}
+}

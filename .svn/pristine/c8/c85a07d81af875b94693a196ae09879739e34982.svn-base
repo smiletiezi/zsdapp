@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.zsdApp.dao.ZsdUserMapper">
+  <resultMap id="BaseResultMap" type="com.py.zsdApp.entity.ZsdUser">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_img" jdbcType="VARCHAR" property="userImg" />
+    <result column="user_balance" jdbcType="DOUBLE" property="userBalance" />
+    <result column="user_pay_password" jdbcType="VARCHAR" property="userPayPassword" />
+    <result column="user_birthday" jdbcType="VARCHAR" property="userBirthday" />
+    <result column="user_sex" jdbcType="VARCHAR" property="userSex" />
+    <result column="user_industry" jdbcType="VARCHAR" property="userIndustry" />
+    <result column="user_brand" jdbcType="VARCHAR" property="userBrand" />
+    <result column="user_long" jdbcType="VARCHAR" property="userLong" />
+    <result column="user_lat" jdbcType="VARCHAR" property="userLat" />
+    <result column="user_create_time" jdbcType="TIMESTAMP" property="userCreateTime" />
+    <result column="user_login_time" jdbcType="TIMESTAMP" property="userLoginTime" />
+    <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
+    <result column="user_spare" jdbcType="INTEGER" property="userSpare" />
+    <result column="user_spare2" jdbcType="VARCHAR" property="userSpare2" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_name, user_phone, user_password, user_img, user_balance, user_pay_password, 
+    user_birthday, user_sex, user_industry, user_brand, user_long, user_lat, user_create_time, 
+    user_login_time, user_address, user_spare, user_spare2
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zsd_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from zsd_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.zsdApp.entity.ZsdUser" useGeneratedKeys="true" keyProperty="userId">
+    insert into zsd_user (user_id, user_name, user_phone, 
+      user_password, user_img, user_balance, 
+      user_pay_password, user_birthday, user_sex, 
+      user_industry, user_brand, user_long, 
+      user_lat, user_create_time, user_login_time, 
+      user_address, user_spare, user_spare2
+      )
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
+      #{userPassword,jdbcType=VARCHAR}, #{userImg,jdbcType=VARCHAR}, #{userBalance,jdbcType=DOUBLE}, 
+      #{userPayPassword,jdbcType=VARCHAR}, #{userBirthday,jdbcType=VARCHAR}, #{userSex,jdbcType=VARCHAR}, 
+      #{userIndustry,jdbcType=VARCHAR}, #{userBrand,jdbcType=VARCHAR}, #{userLong,jdbcType=VARCHAR}, 
+      #{userLat,jdbcType=VARCHAR}, #{userCreateTime,jdbcType=TIMESTAMP}, #{userLoginTime,jdbcType=TIMESTAMP}, 
+      #{userAddress,jdbcType=VARCHAR}, #{userSpare,jdbcType=INTEGER}, #{userSpare2,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.zsdApp.entity.ZsdUser">
+    insert into zsd_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="userPassword != null">
+        user_password,
+      </if>
+      <if test="userImg != null">
+        user_img,
+      </if>
+      <if test="userBalance != null">
+        user_balance,
+      </if>
+      <if test="userPayPassword != null">
+        user_pay_password,
+      </if>
+      <if test="userBirthday != null">
+        user_birthday,
+      </if>
+      <if test="userSex != null">
+        user_sex,
+      </if>
+      <if test="userIndustry != null">
+        user_industry,
+      </if>
+      <if test="userBrand != null">
+        user_brand,
+      </if>
+      <if test="userLong != null">
+        user_long,
+      </if>
+      <if test="userLat != null">
+        user_lat,
+      </if>
+      <if test="userCreateTime != null">
+        user_create_time,
+      </if>
+      <if test="userLoginTime != null">
+        user_login_time,
+      </if>
+      <if test="userAddress != null">
+        user_address,
+      </if>
+      <if test="userSpare != null">
+        user_spare,
+      </if>
+      <if test="userSpare2 != null">
+        user_spare2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userImg != null">
+        #{userImg,jdbcType=VARCHAR},
+      </if>
+      <if test="userBalance != null">
+        #{userBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="userPayPassword != null">
+        #{userPayPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirthday != null">
+        #{userBirthday,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userIndustry != null">
+        #{userIndustry,jdbcType=VARCHAR},
+      </if>
+      <if test="userBrand != null">
+        #{userBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="userLong != null">
+        #{userLong,jdbcType=VARCHAR},
+      </if>
+      <if test="userLat != null">
+        #{userLat,jdbcType=VARCHAR},
+      </if>
+      <if test="userCreateTime != null">
+        #{userCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userLoginTime != null">
+        #{userLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userAddress != null">
+        #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userSpare != null">
+        #{userSpare,jdbcType=INTEGER},
+      </if>
+      <if test="userSpare2 != null">
+        #{userSpare2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.zsdApp.entity.ZsdUser">
+    update zsd_user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userImg != null">
+        user_img = #{userImg,jdbcType=VARCHAR},
+      </if>
+      <if test="userBalance != null">
+        user_balance = #{userBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="userPayPassword != null">
+        user_pay_password = #{userPayPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirthday != null">
+        user_birthday = #{userBirthday,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        user_sex = #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userIndustry != null">
+        user_industry = #{userIndustry,jdbcType=VARCHAR},
+      </if>
+      <if test="userBrand != null">
+        user_brand = #{userBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="userLong != null">
+        user_long = #{userLong,jdbcType=VARCHAR},
+      </if>
+      <if test="userLat != null">
+        user_lat = #{userLat,jdbcType=VARCHAR},
+      </if>
+      <if test="userCreateTime != null">
+        user_create_time = #{userCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userLoginTime != null">
+        user_login_time = #{userLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userAddress != null">
+        user_address = #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userSpare != null">
+        user_spare = #{userSpare,jdbcType=INTEGER},
+      </if>
+      <if test="userSpare2 != null">
+        user_spare2 = #{userSpare2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.zsdApp.entity.ZsdUser">
+    update zsd_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_img = #{userImg,jdbcType=VARCHAR},
+      user_balance = #{userBalance,jdbcType=DOUBLE},
+      user_pay_password = #{userPayPassword,jdbcType=VARCHAR},
+      user_birthday = #{userBirthday,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=VARCHAR},
+      user_industry = #{userIndustry,jdbcType=VARCHAR},
+      user_brand = #{userBrand,jdbcType=VARCHAR},
+      user_long = #{userLong,jdbcType=VARCHAR},
+      user_lat = #{userLat,jdbcType=VARCHAR},
+      user_create_time = #{userCreateTime,jdbcType=TIMESTAMP},
+      user_login_time = #{userLoginTime,jdbcType=TIMESTAMP},
+      user_address = #{userAddress,jdbcType=VARCHAR},
+      user_spare = #{userSpare,jdbcType=INTEGER},
+      user_spare2 = #{userSpare2,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByUser" parameterType="com.py.zsdApp.entity.ZsdUser" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zsd_user 
+    where 1=1
+    <if test="userId !=null">
+    and user_id=#{userId,jdbcType=INTEGER}
+    </if>
+    <if test="userName != null">
+      and  user_name = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="userPhone != null">
+      and  user_phone = #{userPhone,jdbcType=VARCHAR}
+      </if>
+      <if test="userPassword != null">
+      and  user_password = #{userPassword,jdbcType=VARCHAR}
+      </if>
+      <if test="userImg != null">
+       and user_img = #{userImg,jdbcType=VARCHAR}
+      </if>
+      <if test="userBalance != null">
+       and user_balance = #{userBalance,jdbcType=DOUBLE}
+      </if>
+      <if test="userPayPassword != null">
+       and user_pay_password = #{userPayPassword,jdbcType=VARCHAR}
+      </if>
+      <if test="userBirthday != null">
+       and user_birthday = #{userBirthday,jdbcType=VARCHAR}
+      </if>
+      <if test="userSex != null">
+      and  user_sex = #{userSex,jdbcType=VARCHAR}
+      </if>
+      <if test="userIndustry != null">
+      and  user_industry = #{userIndustry,jdbcType=VARCHAR}
+      </if>
+      <if test="userBrand != null">
+       and user_brand = #{userBrand,jdbcType=VARCHAR}
+      </if>
+      <if test="userLong != null">
+      and  user_long = #{userLong,jdbcType=VARCHAR}
+      </if>
+      <if test="userLat != null">
+      and  user_lat = #{userLat,jdbcType=VARCHAR}
+      </if>
+      <if test="userCreateTime != null">
+       and user_create_time=#{userCreateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="userLoginTime != null">
+       and user_login_time=#{userLoginTime,jdbcType=TIMESTAMP}
+      </if>
+      order by user_id desc
+  </select>
+  <select id="selectByUserIndustry" parameterType="com.py.zsdApp.entity.ZsdUser" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zsd_user 
+    where 1=1
+    <if test="userId !=null">
+    and user_id=#{userId,jdbcType=INTEGER}
+    </if>
+    <if test="userName != null">
+      and  user_name = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="userPhone != null">
+      and  user_phone = #{userPhone,jdbcType=VARCHAR}
+      </if>
+      <if test="userPassword != null">
+      and  user_password = #{userPassword,jdbcType=VARCHAR}
+      </if>
+      <if test="userImg != null">
+       and user_img = #{userImg,jdbcType=VARCHAR}
+      </if>
+      <if test="userBalance != null">
+       and user_balance = #{userBalance,jdbcType=DOUBLE}
+      </if>
+      <if test="userPayPassword != null">
+       and user_pay_password = #{userPayPassword,jdbcType=VARCHAR}
+      </if>
+      <if test="userBirthday != null">
+       and user_birthday = #{userBirthday,jdbcType=VARCHAR}
+      </if>
+      <if test="userSex != null">
+      and  user_sex = #{userSex,jdbcType=VARCHAR}
+      </if>
+      <if test="userIndustry != null">
+      and  user_industry = #{userIndustry,jdbcType=VARCHAR}
+      </if>
+      <if test="userBrand != null">
+       and user_brand = #{userBrand,jdbcType=VARCHAR}
+      </if>
+      <if test="userLong != null">
+      and  user_long = #{userLong,jdbcType=VARCHAR}
+      </if>
+      <if test="userLat != null">
+      and  user_lat = #{userLat,jdbcType=VARCHAR}
+      </if>
+      <if test="userCreateTime != null">
+       and user_create_time=#{userCreateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="userLoginTime != null">
+       and user_login_time=#{userLoginTime,jdbcType=TIMESTAMP}
+      </if>
+      order by user_id desc
+  </select>
+</mapper>

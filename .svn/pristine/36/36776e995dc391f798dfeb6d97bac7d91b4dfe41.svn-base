@@ -1,0 +1,225 @@
+package com.py.zsdApp.web;
+
+import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.github.pagehelper.StringUtil;
+import com.py.zsdApp.dao.ZsdUserMapper;
+import com.py.zsdApp.entity.ZsdUser;
+import com.py.zsdApp.utils.CommonUtil;
+import com.py.zsdApp.utils.JpushUtil;
+import com.py.zsdApp.utils.MD5;
+import com.py.zsdApp.utils.Msg;
+import com.py.zsdApp.utils.SMSBean;
+import com.py.zsdApp.utils.UUIDUtils;
+
+@Controller
+@RequestMapping(value = "/zsduser")
+public class ZsdUserController {
+	@Autowired
+	private ZsdUserMapper zsdUserMapper;
+	
+	/*
+	 * 手机端注册
+	 */
+	@RequestMapping(value = "/register")
+	@ResponseBody
+	public Msg register(@RequestParam(value="userPhone",required=false)String userPhone,
+			@RequestParam(value="userPassword",required=false)String userPassword,
+			@RequestParam(value="code",required=false)String code){
+		ZsdUser user=new ZsdUser();
+		if(userPhone !=null && userPhone !="") {
+			if(userPhone.length()!=11) {
+				return Msg.fail().add("mag", "手机号应为11位数");
+			}else {
+				String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$";
+				Pattern p = Pattern.compile(regex);
+	            Matcher m = p.matcher(userPhone);
+	            boolean isMatch = m.matches();
+	            if(isMatch){
+	                user.setUserPhone(userPhone);
+	            } else {
+					return Msg.fail().add("mag", "手机号格式错误");
+	            }
+			}
+		}else {
+			return Msg.fail().add("mag", "手机号不能为空");
+		}
+		ZsdUser users=zsdUserMapper.selectByUser(user);
+		if(users!=null){
+			return Msg.fail().add("mag", "该手机号已注册");
+		}
+		if(code == null) {
+			return Msg.fail().add("mag", "请输入验证码");
+			}
+		Msg msg = CommonUtil.verifyMobileCode(userPhone, code );
+		if(msg.getCode() != 100) {
+			return msg;
+		}
+		if(userPassword !=null&&userPassword !="") {
+			String password =MD5.MD5(userPassword);
+			user.setUserPassword(password);
+		}else {
+			return Msg.fail().add("mag", "密码为空");
+		}
+		try {
+			user.setUserCreateTime(new Date());
+			zsdUserMapper.insertSelective(user);
+			return Msg.success();
+		} catch (Exception e) {
+			return Msg.fail().add("mag", "处理失败");
+		}
+		
+		
+	}
+	
+	/**
+	 * 手机端登录
+	 */
+	@RequestMapping(value = "/login")
+	@ResponseBody
+	public Msg login(@RequestParam(value="userPhone",required=false)String userPhone,
+			@RequestParam(value="userPassword",required=false)String userPassword){
+		ZsdUser user =new ZsdUser();
+		if(StringUtil.isNotEmpty(userPhone)) {
+			user.setUserPhone(userPhone);
+		}else {
+			return Msg.fail().add("msg", "登录名为空");
+		}
+		if(StringUtil.isNotEmpty(userPassword)) {
+			user.setUserPassword(MD5.MD5(userPassword));
+		}else {
+			return Msg.fail().add("msg", "密码为空");
+		}
+		ZsdUser users=zsdUserMapper.selectByUser(user);
+		if(users==null) {
+			return Msg.fail().add("msg", "用户名或者密码不正确");
+		}
+		SMSBean smsBean = (SMSBean) CommonUtil.MSG_MAP.get(users.getUserPhone());
+		if(smsBean!=null){
+			//推送信息系统检测到您的账号在另外一台手机登录,如非本人操作请修改密码
+			if(users!=null) {
+				try {
+             		JpushUtil.pushToAliasMessage("系统检测到您的账号在另外一台手机登录,如非本人操作请修改密码",users.getUserId().toString());
+ 				} catch (Exception e) {
+ 				}	
+				CommonUtil.MSG_MAP.remove(users.getUserPhone());
+			}	
+		}
+		SMSBean bean = new SMSBean(users.getUserId(),users.getUserPhone(),UUIDUtils.getUUID(),null);
+		CommonUtil.MSG_MAP.put(users.getUserPhone(), bean);
+		try {
+			users.setUserLoginTime(new Date());
+			zsdUserMapper.updateByPrimaryKey(users);
+			Msg msg=new Msg();
+			msg.setMsg(users.getUserId().toString());
+			return Msg.success(msg.getMsg());
+		} catch (Exception e) {
+			return Msg.fail().add("mag", "处理失败");
+		}
+		
+	}
+	
+	/*
+	 *手机端忘记密码
+	 */
+	@RequestMapping(value = "/forget")
+	@ResponseBody
+	public Msg forget(@RequestParam(value="userPhone",required=false)String userPhone,
+			@RequestParam(value="userPassword",required=false)String userPassword,
+			@RequestParam(value="code",required=false)String code) {
+		ZsdUser user=new ZsdUser();
+		if(userPhone !=null && userPhone !="") {
+			if(userPhone.length()!=11) {
+				return Msg.fail().add("mag", "手机号应为11位数");
+			}else {
+				String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$";
+				Pattern p = Pattern.compile(regex);
+	            Matcher m = p.matcher(userPhone);
+	            boolean isMatch = m.matches();
+	            if(isMatch){
+	                user.setUserPhone(userPhone);
+	            } else {
+					return Msg.fail().add("mag", "手机号格式错误");
+	            }
+			}
+		}else {
+			return Msg.fail().add("mag", "手机号不能为空");
+		}
+		ZsdUser users=zsdUserMapper.selectByUser(user);
+		if(users==null) {
+			return Msg.fail().add("mag", "改手机号未注册");
+		}
+		if(code == null) {
+			return Msg.fail().add("mag", "请输入验证码");
+			}
+		Msg msg = CommonUtil.verifyMobileCode(userPhone, code );
+		if(msg.getCode() != 100) {
+			return msg;
+		}
+		if(userPassword==null) {
+			return Msg.fail().add("mag", "请输入新密码");
+		}
+		try {
+			users.setUserPassword(MD5.MD5(userPassword));
+			zsdUserMapper.updateByPrimaryKeySelective(users);
+			return Msg.success();
+		} catch (Exception e) {
+			return Msg.fail().add("mag", "处理失败");
+		}
+		
+	}
+	
+ /*
+  * 手机端修改密码
+  */
+	@RequestMapping(value = "/reset")
+	@ResponseBody
+	public Msg reset(@RequestParam(value="userId",required=false)Integer userId,
+			@RequestParam(value="userPassword",required=false)String userPassword,
+			@RequestParam(value="newPassword",required=false)String newPassword,
+			@RequestParam(value="rePassword",required=false)String rePassword){
+		ZsdUser user=zsdUserMapper.selectByPrimaryKey(userId);
+		if(user==null){
+			return Msg.fail().add("mag", "请重新登录");
+		}
+		if(userPassword!=null){
+			if(user.getUserPassword().equals(MD5.MD5(userPassword))==false) {
+				return Msg.fail().add("mag", "原始密码不正确");
+			}
+		}else {
+			return Msg.fail().add("mag", "请输入原始密码");
+		}
+		if(newPassword==null) {
+			return Msg.fail().add("mag", "请输入新密码");
+		}
+		if(rePassword==null) {
+			return Msg.fail().add("mag", "请再次输入新密码");
+		}
+		if(newPassword.equals(rePassword)==false) {
+			return Msg.fail().add("mag", "两次输入的密码不一致");
+		}
+		user.setUserPassword(MD5.MD5(newPassword));
+		
+		try {
+			zsdUserMapper.updateByPrimaryKeySelective(user);
+			return Msg.success();
+		} catch (Exception e) {
+			return Msg.fail().add("mag", "处理失败");
+		}
+		
+	}
+	
+	
+	
+	
+	
+}

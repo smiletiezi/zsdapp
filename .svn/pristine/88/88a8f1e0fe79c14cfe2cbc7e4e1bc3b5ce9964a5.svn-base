@@ -1,0 +1,19 @@
+package com.py.zsdApp.dao;
+
+import com.py.zsdApp.entity.ZsdOrder;
+
+public interface ZsdOrderMapper {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(ZsdOrder record);
+
+    int insertSelective(ZsdOrder record);
+
+    ZsdOrder selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(ZsdOrder record);
+
+    int updateByPrimaryKeyWithBLOBs(ZsdOrder record);
+
+    int updateByPrimaryKey(ZsdOrder record);
+}

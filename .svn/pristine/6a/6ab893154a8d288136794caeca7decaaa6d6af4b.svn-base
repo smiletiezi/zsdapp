@@ -1,0 +1,17 @@
+package com.py.zsdApp.dao;
+
+import com.py.zsdApp.entity.ZsdUser;
+
+public interface ZsdUserMapper {
+    int deleteByPrimaryKey(Integer userId);
+
+    int insert(ZsdUser record);
+
+    int insertSelective(ZsdUser record);
+
+    ZsdUser selectByPrimaryKey(Integer userId);
+
+    int updateByPrimaryKeySelective(ZsdUser record);
+
+    int updateByPrimaryKey(ZsdUser record);
+}

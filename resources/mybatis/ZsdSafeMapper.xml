@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.zsdApp.dao.ZsdSafeMapper">
+  <resultMap id="BaseResultMap" type="com.py.zsdApp.entity.ZsdSafe">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <result column="img_one" jdbcType="VARCHAR" property="imgOne" />
+    <result column="img_two" jdbcType="VARCHAR" property="imgTwo" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="warranty" jdbcType="VARCHAR" property="warranty" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userId, img_one, img_two, address, phone, type,warranty, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zsd_safe
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from zsd_safe
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.zsdApp.entity.ZsdSafe">
+    insert into zsd_safe (id, userId, img_one, 
+      img_two, address, phone, 
+      type, warranty,remark)
+    values (#{id,jdbcType=INTEGER}, 
+    		   #{userid,jdbcType=INTEGER}, 
+               #{imgOne,jdbcType=VARCHAR}, 
+               #{imgTwo,jdbcType=VARCHAR},
+               #{address,jdbcType=VARCHAR},
+               #{phone,jdbcType=VARCHAR}, 
+               #{type,jdbcType=VARCHAR}, 
+               #{warranty,jdbcType=VARCHAR},
+               #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.zsdApp.entity.ZsdSafe">
+    insert into zsd_safe
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="imgOne != null">
+        img_one,
+      </if>
+      <if test="imgTwo != null">
+        img_two,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="warranty != null">
+        warranty,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="imgOne != null">
+        #{imgOne,jdbcType=VARCHAR},
+      </if>
+      <if test="imgTwo != null">
+        #{imgTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="warranty != null">
+        #{warranty,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.zsdApp.entity.ZsdSafe">
+    update zsd_safe
+    <set>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="imgOne != null">
+        img_one = #{imgOne,jdbcType=VARCHAR},
+      </if>
+      <if test="imgTwo != null">
+        img_two = #{imgTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="warranty != null">
+        warranty = #{warranty,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.zsdApp.entity.ZsdSafe">
+    update zsd_safe
+    set userId = #{userid,jdbcType=INTEGER},
+      img_one = #{imgOne,jdbcType=VARCHAR},
+      img_two = #{imgTwo,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      warranty = #{warranty,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByExample" parameterType="com.py.zsdApp.entity.ZsdSafe" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zsd_safe
+    where 1=1
+    <if test="userid != null">
+       and userId LIKE CONCAT(CONCAT('%', #{userid,jdbcType=VARCHAR}), '%')
+      </if>
+      <if test="phone != null">
+       and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+  </select>
+</mapper>

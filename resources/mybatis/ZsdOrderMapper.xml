@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.py.zsdApp.dao.ZsdOrderMapper">
+  <resultMap id="BaseResultMap" type="com.py.zsdApp.entity.ZsdOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="price_type" jdbcType="VARCHAR" property="priceType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="deposit" jdbcType="DOUBLE" property="deposit" />
+    <result column="order_long" jdbcType="VARCHAR" property="orderLong" />
+    <result column="order_lat" jdbcType="VARCHAR" property="orderLat" />
+    <result column="ordertypeid" jdbcType="INTEGER" property="ordertypeid" />
+    <result column="beiyong1" jdbcType="VARCHAR" property="beiyong1" />
+    <result column="beiyong2" jdbcType="INTEGER" property="beiyong2" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.py.zsdApp.entity.ZsdOrder">
+    <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
+    <result column="order_text" jdbcType="LONGVARCHAR" property="orderText" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, title, img, address, price, phone, price_type, create_time, order_status, 
+    deposit, order_long, order_lat, ordertypeid, beiyong1, beiyong2
+  </sql>
+  <sql id="Blob_Column_List">
+    detail, order_text
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from zsd_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from zsd_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.py.zsdApp.entity.ZsdOrder">
+    insert into zsd_order (id, user_id, title, 
+      img, address, price, 
+      phone, price_type, create_time, 
+      order_status, deposit, order_long, 
+      order_lat, ordertypeid, beiyong1, 
+      beiyong2, detail, order_text
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{img,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
+      #{phone,jdbcType=VARCHAR}, #{priceType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{orderStatus,jdbcType=VARCHAR}, #{deposit,jdbcType=DOUBLE}, #{orderLong,jdbcType=VARCHAR}, 
+      #{orderLat,jdbcType=VARCHAR}, #{ordertypeid,jdbcType=INTEGER}, #{beiyong1,jdbcType=VARCHAR}, 
+      #{beiyong2,jdbcType=INTEGER}, #{detail,jdbcType=LONGVARCHAR}, #{orderText,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.py.zsdApp.entity.ZsdOrder">
+    insert into zsd_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="priceType != null">
+        price_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="deposit != null">
+        deposit,
+      </if>
+      <if test="orderLong != null">
+        order_long,
+      </if>
+      <if test="orderLat != null">
+        order_lat,
+      </if>
+      <if test="ordertypeid != null">
+        ordertypeid,
+      </if>
+      <if test="beiyong1 != null">
+        beiyong1,
+      </if>
+      <if test="beiyong2 != null">
+        beiyong2,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+      <if test="orderText != null">
+        order_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="priceType != null">
+        #{priceType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deposit != null">
+        #{deposit,jdbcType=DOUBLE},
+      </if>
+      <if test="orderLong != null">
+        #{orderLong,jdbcType=VARCHAR},
+      </if>
+      <if test="orderLat != null">
+        #{orderLat,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertypeid != null">
+        #{ordertypeid,jdbcType=INTEGER},
+      </if>
+      <if test="beiyong1 != null">
+        #{beiyong1,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong2 != null">
+        #{beiyong2,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="orderText != null">
+        #{orderText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.py.zsdApp.entity.ZsdOrder">
+    update zsd_order
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="priceType != null">
+        price_type = #{priceType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deposit != null">
+        deposit = #{deposit,jdbcType=DOUBLE},
+      </if>
+      <if test="orderLong != null">
+        order_long = #{orderLong,jdbcType=VARCHAR},
+      </if>
+      <if test="orderLat != null">
+        order_lat = #{orderLat,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertypeid != null">
+        ordertypeid = #{ordertypeid,jdbcType=INTEGER},
+      </if>
+      <if test="beiyong1 != null">
+        beiyong1 = #{beiyong1,jdbcType=VARCHAR},
+      </if>
+      <if test="beiyong2 != null">
+        beiyong2 = #{beiyong2,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="orderText != null">
+        order_text = #{orderText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.py.zsdApp.entity.ZsdOrder">
+    update zsd_order
+    set user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      phone = #{phone,jdbcType=VARCHAR},
+      price_type = #{priceType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_status = #{orderStatus,jdbcType=VARCHAR},
+      deposit = #{deposit,jdbcType=DOUBLE},
+      order_long = #{orderLong,jdbcType=VARCHAR},
+      order_lat = #{orderLat,jdbcType=VARCHAR},
+      ordertypeid = #{ordertypeid,jdbcType=INTEGER},
+      beiyong1 = #{beiyong1,jdbcType=VARCHAR},
+      beiyong2 = #{beiyong2,jdbcType=INTEGER},
+      detail = #{detail,jdbcType=LONGVARCHAR},
+      order_text = #{orderText,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.py.zsdApp.entity.ZsdOrder">
+    update zsd_order
+    set user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      phone = #{phone,jdbcType=VARCHAR},
+      price_type = #{priceType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_status = #{orderStatus,jdbcType=VARCHAR},
+      deposit = #{deposit,jdbcType=DOUBLE},
+      order_long = #{orderLong,jdbcType=VARCHAR},
+      order_lat = #{orderLat,jdbcType=VARCHAR},
+      ordertypeid = #{ordertypeid,jdbcType=INTEGER},
+      beiyong1 = #{beiyong1,jdbcType=VARCHAR},
+      beiyong2 = #{beiyong2,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectOrder" parameterType="com.py.zsdApp.entity.ZsdOrder" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from zsd_order 
+    where 1=1
+      <if test="id != null">
+        and id=#{id,jdbcType=INTEGER}
+      </if>
+      <if test="userId != null">
+        and user_id=#{userId,jdbcType=INTEGER}
+      </if>
+      <if test="title != null">
+      	and title LIKE CONCAT(CONCAT('%', #{title,jdbcType=VARCHAR}), '%')
+      </if>
+      <if test="img != null">
+      	and img = #{img,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null">
+        and address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="price != null">
+        and price = #{price,jdbcType=DOUBLE}
+      </if>
+      <if test="phone != null">
+        and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="priceType != null">
+        and price_type = #{priceType,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null">
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="orderStatus != null">
+        and order_status = #{orderStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="deposit != null">
+        and deposit = #{deposit,jdbcType=DOUBLE}
+      </if>
+      <if test="orderLong != null">
+    	and order_long = #{orderLong,jdbcType=VARCHAR}
+      </if>
+      <if test="orderLat != null">
+        and order_lat = #{orderLat,jdbcType=VARCHAR}
+      </if>
+      <if test="ordertypeid != null">
+        and ordertypeid = #{ordertypeid,jdbcType=INTEGER}
+      </if>
+      <if test="beiyong1 != null">
+        and beiyong1 = #{beiyong1,jdbcType=VARCHAR}
+      </if>
+      <if test="beiyong2 != null">
+        and beiyong2 = #{beiyong2,jdbcType=INTEGER}
+      </if>
+      <if test="detail != null">
+       	and detail = #{detail,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="orderText != null">
+        and order_text = #{orderText,jdbcType=LONGVARCHAR}
+      </if>
+      order by create_time desc
+  </select>
+  
+  <select id="selectByLog" resultMap="BaseResultMap"  parameterType="java.util.Map">
+    select
+	<include refid="Base_Column_List" />
+     from zsd_order
+     where
+	order_lat <![CDATA[ > #{lat} - 1  ]]>
+    and order_lat <![CDATA[< #{lat} + 1 ]]>
+    and order_long <![CDATA[ > #{lon} - 1 ]]>
+    and order_long <![CDATA[< #{lon} + 1]]>
+    order by
+	ACOS(
+		SIN((#{lat} * 3.1415) / 180) * SIN((order_lat * 3.1415) / 180) + COS((#{lat} * 3.1415) / 180) * COS((order_lat * 3.1415) / 180) * COS(
+			(#{lon} * 3.1415) / 180 - (order_long * 3.1415) / 180
+		)
+	) * 6380 ASC
+</select>
+</mapper>
