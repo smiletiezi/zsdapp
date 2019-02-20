@@ -11,19 +11,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.shiro.SecurityUtils;
-
 import com.py.zsdApp.Constants;
 import com.py.zsdApp.entity.User;
 import com.py.zsdApp.utils.Utils;
-
 import sun.misc.BASE64Decoder;
 
 public class BaseController {
