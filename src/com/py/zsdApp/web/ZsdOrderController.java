@@ -77,6 +77,64 @@ public class ZsdOrderController extends BaseController{
 		zsdOrderService.insertSelective(zsdOrder);
 		return Msg.success();
 	}
+	
+	//修改订单
+		@RequestMapping(value = "/updateOrder")
+		@ResponseBody
+		public Msg updateOrder(
+				@RequestParam(value="orderid",required=false)String orderid,
+				@RequestParam(value="jing",required=false)String jing,//经度
+				@RequestParam(value="wei",required=false)String wei,//纬度
+				@RequestParam(value="address",required=false)String address,//地址
+				@RequestParam(value="deposit",required=false)String deposit,//押金
+				@RequestParam(value="img",required=false)String img,//订单图片
+				@RequestParam(value="ordertypeid",required=false)String ordertypeid,//订单类型id
+				@RequestParam(value="ordertext",required=false)String ordertext,//正文
+				@RequestParam(value="price",required=false)String price,//金额
+				@RequestParam(value="pricetype",required=false)String pricetype,//交易类型
+				@RequestParam(value="phone",required=false)String phone,//电话
+				@RequestParam(value="title",required=false)String title) {
+			if(StringUtil.isEmpty(orderid)) {
+				return Msg.fail().add("msg", "请选择要修改的订单");
+			}
+			ZsdOrder order=zsdOrderService.selectByPrimaryKey(Integer.parseInt(orderid));
+			if(StringUtil.isNotEmpty(jing)) {
+				order.setOrderLong(jing);
+			}
+			if(StringUtil.isNotEmpty(wei)) {
+				order.setOrderLat(wei);
+			}
+			if(StringUtil.isNotEmpty(address)) {
+				order.setAddress(address);
+			}
+			if(StringUtil.isNotEmpty(deposit)) {
+				order.setDeposit(Double.parseDouble(deposit));
+			}
+			if(StringUtil.isNotEmpty(img)) {
+				order.setImg(img);
+			}
+			if(StringUtil.isNotEmpty(ordertypeid)) {
+				order.setOrdertypeid(Integer.parseInt(ordertypeid));
+			}
+			if(StringUtil.isNotEmpty(ordertext)) {
+				order.setOrderText(ordertext);
+			}
+			if(StringUtil.isNotEmpty(price)) {
+				order.setPrice(Double.parseDouble(price));
+			}
+			if(StringUtil.isNotEmpty(pricetype)) {
+				order.setPriceType(pricetype);
+			}
+			if(StringUtil.isNotEmpty(phone)) {
+				order.setPhone(phone);
+			}
+			if(StringUtil.isNotEmpty(title)) {
+				order.setTitle(title);
+			}
+			zsdOrderService.updateByPrimaryKeySelective(order);
+			return Msg.success();
+		}
+		
 	//待接单的订单
 	@RequestMapping(value = "/getAccountEntryOrder")
 	@ResponseBody
@@ -245,6 +303,7 @@ public class ZsdOrderController extends BaseController{
 		ZsdOrder zsdOrder = new ZsdOrder();
 		zsdOrder.setUserId(Integer.valueOf(userid));
 		zsdOrder.setOrdertypeid(Integer.valueOf(ordertypeid));
+		zsdOrder.setOrderStatus("1");//发布的共享订单 可修改 验资中
 		List<ZsdOrder> selectOrder = zsdOrderService.selectOrder(zsdOrder);
 		if(selectOrder.size() == 0||selectOrder==null) {
 			return Msg.fail().add("mag", "您还没有共享可以前去发布");

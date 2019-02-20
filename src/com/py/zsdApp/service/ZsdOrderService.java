@@ -46,4 +46,11 @@ public class ZsdOrderService {
 	public List<ZsdOrder> selectByLog(Map<String,Object> map){
 		return zsdOrderMapper.selectByLog(map);                            
 	}
+	
+	/**
+	 * 订单修改
+	 */
+	public int updateByPrimaryKeySelective(ZsdOrder zsdOrder) {
+		return zsdOrderMapper.updateByPrimaryKeySelective(zsdOrder);
+	}
 }
